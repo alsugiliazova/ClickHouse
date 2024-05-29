@@ -3,6 +3,7 @@
 #include <Core/Settings.h>
 
 #include <Common/scope_guard_safe.h>
+#include <Core/ParallelReplicasMode.h>
 
 #include <Columns/ColumnAggregateFunction.h>
 
@@ -504,7 +505,7 @@ std::optional<FilterDAGInfo> buildCustomKeyFilterIfNeeded(const StoragePtr & sto
         settings.parallel_replicas_count,
         settings.parallel_replica_offset,
         std::move(custom_key_ast),
-        {settings.parallel_replicas_custom_key_filter_type,
+        {settings.parallel_replicas_mode,
          settings.parallel_replicas_custom_key_range_lower,
          settings.parallel_replicas_custom_key_range_upper},
         storage->getInMemoryMetadataPtr()->columns,
@@ -834,7 +835,11 @@ JoinTreeQueryPlan buildQueryPlanForTableExpression(QueryTreeNodePtr table_expres
                     add_filter(*row_policy_filter_info, "Row-level security filter");
                 }
 
+<<<<<<< HEAD
                 if (query_context->canUseParallelReplicasCustomKey())
+=======
+                if (query_context->getParallelReplicasMode() == ParallelReplicasMode::CUSTOM_KEY_SAMPLING)
+>>>>>>> 97fc943989d (Settings unification)
                 {
                     if (settings.parallel_replicas_count > 1)
                     {
