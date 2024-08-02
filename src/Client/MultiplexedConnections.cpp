@@ -1,7 +1,6 @@
 #include <Client/MultiplexedConnections.h>
 
 #include <Common/thread_local_rng.h>
-#include "Core/ParallelReplicasMode.h"
 #include <Core/Protocol.h>
 #include <Core/Settings.h>
 #include <Interpreters/Context.h>
@@ -157,19 +156,18 @@ void MultiplexedConnections::sendQuery(
     /// all servers involved in the distributed query processing.
     modified_settings.set("allow_experimental_analyzer", static_cast<bool>(modified_settings.allow_experimental_analyzer));
 
-    const bool enable_sampling_key_parallel_replicas = context->canUseOffsetParallelReplicas();
-
+    const bool enable_offset_parallel_processing = context->canUseOffsetParallelReplicas();
 
     size_t num_replicas = replica_states.size();
     if (num_replicas > 1)
     {
-        if (enable_sampling_key_parallel_replicas)
+        if (enable_offset_parallel_processing)
             /// Use multiple replicas for parallel query processing.
             modified_settings.parallel_replicas_count = num_replicas;
 
         for (size_t i = 0; i < num_replicas; ++i)
         {
-            if (enable_sampling_key_parallel_replicas)
+            if (enable_offset_parallel_processing)
                 modified_settings.parallel_replica_offset = i;
 
             replica_states[i].connection->sendQuery(
