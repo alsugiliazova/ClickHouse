@@ -84,7 +84,7 @@ def test_parallel_replicas_custom_key_distributed(
             settings={
                 "max_parallel_replicas": 4,
                 "parallel_replicas_custom_key": custom_key,
-                "use_parallel_replicas": 1,
+                "enable_parallel_replicas": 1,
                 "parallel_replicas_mode": parallel_replicas_mode,
                 "prefer_localhost_replica": 0,
             },
@@ -133,7 +133,7 @@ def test_parallel_replicas_custom_key_mergetree(
             "SELECT key, count() FROM test_table_for_mt GROUP BY key ORDER BY key",
             settings={
                 "max_parallel_replicas": 4,
-                "use_parallel_replicas": 1,
+                "enable_parallel_replicas": 1,
                 "parallel_replicas_custom_key": custom_key,
                 "parallel_replicas_mode": parallel_replicas_mode,
                 "parallel_replicas_for_non_replicated_merge_tree": 1,
@@ -180,7 +180,7 @@ def test_parallel_replicas_custom_key_replicatedmergetree(
             "SELECT key, count() FROM test_table_for_rmt GROUP BY key ORDER BY key",
             settings={
                 "max_parallel_replicas": 4,
-                "use_parallel_replicas": 1,
+                "enable_parallel_replicas": 1,
                 "parallel_replicas_custom_key": custom_key,
                 "parallel_replicas_mode": parallel_replicas_mode,
                 "cluster_for_parallel_replicas": cluster,

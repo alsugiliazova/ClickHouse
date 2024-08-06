@@ -1,6 +1,6 @@
 -- Tags: distributed
 
-set use_parallel_replicas = 1;
+set enable_parallel_replicas = 1;
 set parallel_replicas_mode = 'sampling_key';
 set max_parallel_replicas = 3;
 

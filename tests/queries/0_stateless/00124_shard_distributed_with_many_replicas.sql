@@ -1,6 +1,6 @@
 -- Tags: replica, distributed
 
-SET use_parallel_replicas = 1;
+SET enable_parallel_replicas = 1;
 SET parallel_replicas_mode = 'sampling_key';
 SET max_parallel_replicas = 2;
 DROP TABLE IF EXISTS report;

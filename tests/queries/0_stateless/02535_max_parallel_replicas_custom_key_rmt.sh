@@ -11,7 +11,7 @@ function run_with_custom_key {
         for max_replicas in {1..3}; do
             echo "filter_type='$filter_type' max_replicas=$max_replicas"
             query="$1 SETTINGS max_parallel_replicas=$max_replicas\
-, use_parallel_replicas='1' \
+, enable_parallel_replicas='1' \
 , parallel_replicas_mode ='$filter_type'\
 , parallel_replicas_custom_key='$2'\
 , parallel_replicas_for_non_replicated_merge_tree=1 \

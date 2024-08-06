@@ -271,7 +271,7 @@ MergeTreeDataSelectSamplingData MergeTreeDataSelectExecutor::getSampling(
         */
 
     const bool can_use_sampling_key_parallel_replicas =
-        settings.use_parallel_replicas > 0
+        settings.enable_parallel_replicas > 0
         && settings.max_parallel_replicas > 1
         && settings.parallel_replicas_mode == ParallelReplicasMode::SAMPLING_KEY;
 

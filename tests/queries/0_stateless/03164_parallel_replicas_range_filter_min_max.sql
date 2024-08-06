@@ -12,7 +12,7 @@ FROM
     SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 5,
@@ -27,7 +27,7 @@ FROM
     SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 4,
@@ -42,7 +42,7 @@ FROM
     SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 6,
@@ -58,7 +58,7 @@ FROM
     SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 0,
@@ -73,7 +73,7 @@ FROM
     SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 15,
@@ -88,7 +88,7 @@ FROM
     SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 0,
@@ -100,10 +100,10 @@ FROM
 (
     SELECT *
     FROM cluster(test_cluster_one_shard_three_replicas_localhost, currentDatabase(), range_filter_custom_range_test)
-    SETTINGS prefer_localhost_replica = 0, 
+    SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 500,
@@ -119,7 +119,7 @@ FROM
     SETTINGS prefer_localhost_replica = 0,
         max_parallel_replicas = 3,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
         parallel_replicas_custom_key_range_lower = 10,
@@ -139,13 +139,13 @@ FROM
 (
     SELECT *
     FROM cluster(parallel_replicas, currentDatabase(), range_filter_custom_range_test_2)
-    SETTINGS prefer_localhost_replica = 0, 
-        max_parallel_replicas = 12, 
+    SETTINGS prefer_localhost_replica = 0,
+        max_parallel_replicas = 12,
         distributed_group_by_no_merge = 0,
-        use_parallel_replicas = 1,
+        enable_parallel_replicas = 1,
         parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
-        parallel_replicas_custom_key_range_lower = 0, 
+        parallel_replicas_custom_key_range_lower = 0,
         parallel_replicas_custom_key_range_upper = 13
 );
 
@@ -162,13 +162,13 @@ FROM
 (
     SELECT *
     FROM cluster(test_cluster_one_shard_three_replicas_localhost, currentDatabase(), range_filter_custom_range_test_3)
-    SETTINGS prefer_localhost_replica = 0, 
-        max_parallel_replicas = 12, 
-        distributed_group_by_no_merge = 0, 
-        use_parallel_replicas = 1,
-        parallel_replicas_custom_key = 'k', 
+    SETTINGS prefer_localhost_replica = 0,
+        max_parallel_replicas = 12,
+        distributed_group_by_no_merge = 0,
+        enable_parallel_replicas = 1,
+        parallel_replicas_custom_key = 'k',
         parallel_replicas_mode = 'custom_key_range',
-        parallel_replicas_custom_key_range_lower = 0, 
+        parallel_replicas_custom_key_range_lower = 0,
         parallel_replicas_custom_key_range_upper = 4
 );
 

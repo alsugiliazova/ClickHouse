@@ -5595,7 +5595,7 @@ std::shared_ptr<AsyncReadCounters> Context::getAsyncReadCounters() const
 
 bool Context::canUseTaskBasedParallelReplicas() const
 {
-    return settings->use_parallel_replicas > 0
+    return settings->enable_parallel_replicas > 0
         && settings->parallel_replicas_mode == ParallelReplicasMode::READ_TASKS
         && settings->max_parallel_replicas > 1;
 }
@@ -5613,7 +5613,7 @@ bool Context::canUseParallelReplicasOnFollower() const
 bool Context::canUseParallelReplicasCustomKey() const
 {
     const bool has_enough_servers = settings->max_parallel_replicas > 1;
-    const bool parallel_replicas_enabled = settings->use_parallel_replicas > 0;
+    const bool parallel_replicas_enabled = settings->enable_parallel_replicas > 0;
     const bool is_parallel_replicas_with_custom_key =
         settings->parallel_replicas_mode == ParallelReplicasMode::CUSTOM_KEY_SAMPLING ||
         settings->parallel_replicas_mode == ParallelReplicasMode::CUSTOM_KEY_RANGE;
@@ -5634,7 +5634,7 @@ bool Context::canUseOffsetParallelReplicas() const
      * We combine them together into one group for convenience.
      */
     const bool has_enough_servers = settings->max_parallel_replicas > 1;
-    const bool parallel_replicas_enabled = settings->use_parallel_replicas > 0;
+    const bool parallel_replicas_enabled = settings->enable_parallel_replicas > 0;
     const bool is_parallel_replicas_with_custom_key_or_native_sampling_key =
         settings->parallel_replicas_mode == ParallelReplicasMode::SAMPLING_KEY ||
         settings->parallel_replicas_mode == ParallelReplicasMode::CUSTOM_KEY_SAMPLING ||

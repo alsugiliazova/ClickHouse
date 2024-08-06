@@ -79,7 +79,7 @@ static std::initializer_list<std::pair<ClickHouseVersion, SettingsChangesHistory
             {"merge_tree_min_bytes_per_task_for_remote_reading", 4194304, 2097152, "Value is unified with `filesystem_prefetch_min_bytes_for_single_read_task`"},
             {"allow_archive_path_syntax", true, true, "Added new setting to allow disabling archive path syntax."},
             {"enable_analyzer", 1, 1, "Added an alias to a setting `allow_experimental_analyzer`."},
-            {"use_parallel_replicas", false, false, "Parallel replicas with read tasks became the Beta tier feature."},
+            {"enable_parallel_replicas", false, false, "Parallel replicas with read tasks became the Beta tier feature."},
             {"parallel_replicas_mode", "read_tasks", "read_tasks", "This setting was introduced as a part of making parallel replicas feature Beta"},
         }
     },

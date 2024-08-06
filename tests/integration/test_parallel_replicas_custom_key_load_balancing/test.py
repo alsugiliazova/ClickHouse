@@ -82,7 +82,7 @@ def test_parallel_replicas_custom_key_load_balancing(
                 "log_comment": log_comment,
                 "prefer_localhost_replica": 0,
                 "max_parallel_replicas": 4,
-                "use_parallel_replicas": 1,
+                "enable_parallel_replicas": 1,
                 "parallel_replicas_custom_key": custom_key,
                 "parallel_replicas_mode": parallel_replicas_mode,
                 "use_hedged_requests": use_hedged_requests,
