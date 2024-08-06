@@ -5,6 +5,7 @@ import csv
 import logging
 import os
 import re
+import signal
 import subprocess
 import sys
 from pathlib import Path
@@ -238,6 +239,15 @@ def parse_args():
 
 
 def main():
+
+    def create_signal_handler(process):
+        def handle_sigterm(signum, _frame):
+            print(f"WARNING: Received signal {signum}: forwarding to subprocess.")
+            if process.poll() is None:  # Check if the process is still running
+                process.send_signal(signal.SIGTERM)  # Send SIGTERM to the subprocess
+
+        return handle_sigterm
+
     logging.basicConfig(level=logging.INFO)
     for handler in logging.root.handlers:
         # pylint: disable=protected-access
@@ -325,6 +335,7 @@ def main():
         logging.info("Going to run func tests: %s", run_command)
 
         with TeePopen(run_command, run_log_path) as process:
+            signal.signal(signal.SIGTERM, create_signal_handler(process))
             retcode = process.wait()
             if retcode == 0:
                 logging.info("Run successfully")

@@ -22,6 +22,7 @@ class TeePopen:
         log_file: Union[str, Path],
         env: Optional[dict] = None,
         timeout: Optional[int] = None,
+        timeout_notice: int = 0,
     ):
         self.command = command
         self._log_file_name = log_file
@@ -29,12 +30,25 @@ class TeePopen:
         self.env = env or os.environ.copy()
         self._process = None  # type: Optional[Popen]
         self.timeout = timeout
+        self.timeout_notice = timeout_notice
         self.timeout_exceeded = False
+        if self.timeout_notice > 0:
+            assert (
+                self.timeout and self.timeout > self.timeout_notice
+            ), f"timeout_notice must be less than timeout [{self.timeout_notice}] < [{self.timeout}]"
 
     def _check_timeout(self) -> None:
         if self.timeout is None:
             return
-        sleep(self.timeout)
+        sleep(self.timeout - self.timeout_notice)
+        if self.timeout_notice:
+            logging.warning(
+                "Send SIGTERM to process %s, time elapsed %s",
+                self.process.pid,
+                self.timeout - self.timeout_notice,
+            )
+            os.killpg(self.process.pid, 15)
+            sleep(self.timeout_notice)
         self.timeout_exceeded = True
         while self.process.poll() is None:
             logging.warning(
@@ -43,7 +57,7 @@ class TeePopen:
                 self.timeout,
             )
             os.killpg(self.process.pid, 9)
-            sleep(10)
+            sleep(2)
 
     def __enter__(self) -> "TeePopen":
         self.process = Popen(

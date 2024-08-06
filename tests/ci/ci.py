@@ -50,7 +50,6 @@ from github_helper import GitHub
 from pr_info import PRInfo
 from report import (
     ERROR,
-    FAILURE,
     PENDING,
     SUCCESS,
     BuildResult,
@@ -62,7 +61,6 @@ from report import (
     FAIL,
 )
 from s3_helper import S3Helper
-from stopwatch import Stopwatch
 from tee_popen import TeePopen
 from ci_cache import CiCache
 from ci_settings import CiSettings
@@ -986,22 +984,22 @@ def _run_test(job_name: str, run_command: str) -> int:
         print("Use run command from the workflow")
     env["CHECK_NAME"] = job_name
     print(f"Going to start run command [{run_command}]")
-    stopwatch = Stopwatch()
+    # stopwatch = Stopwatch()
     job_log = Path(TEMP_PATH) / "job_log.txt"
-    with TeePopen(run_command, job_log, env, timeout) as process:
+    with TeePopen(run_command, job_log, env, timeout, timeout_notice=60) as process:
         retcode = process.wait()
         if retcode != 0:
             print(f"Run action failed for: [{job_name}] with exit code [{retcode}]")
-            if timeout and process.timeout_exceeded:
-                print(f"Timeout {timeout} exceeded, dumping the job report")
-                JobReport(
-                    status=FAILURE,
-                    description=f"Timeout {timeout} exceeded",
-                    test_results=[TestResult.create_check_timeout_expired(timeout)],
-                    start_time=stopwatch.start_time_str,
-                    duration=stopwatch.duration_seconds,
-                    additional_files=[job_log],
-                ).dump()
+            # if timeout and process.timeout_exceeded:
+            #     print(f"Timeout {timeout} exceeded, dumping the job report")
+            #     JobReport(
+            #         status=FAILURE,
+            #         description=f"Timeout {timeout} exceeded",
+            #         test_results=[TestResult.create_check_timeout_expired(timeout)],
+            #         start_time=stopwatch.start_time_str,
+            #         duration=stopwatch.duration_seconds,
+            #         additional_files=[job_log],
+            #     ).dump()
 
     print(f"Run action done for: [{job_name}]")
     return retcode
