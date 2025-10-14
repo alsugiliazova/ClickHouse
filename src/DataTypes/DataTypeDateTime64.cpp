@@ -37,6 +37,15 @@ DataTypeDateTime64::DataTypeDateTime64(UInt32 scale_, const TimezoneMixin & time
             "Maximum is up to nanoseconds (9).", std::to_string(scale));
 }
 
+DataTypeDateTime64::DataTypeDateTime64(UInt32 scale_, std::string_view time_zone_name, bool force_non_explicit)
+    : DataTypeDecimalBase<DateTime64>(DecimalUtils::max_precision<DateTime64>, scale_),
+      TimezoneMixin(time_zone_name, force_non_explicit)
+{
+    if (scale > max_scale)
+        throw Exception(ErrorCodes::ARGUMENT_OUT_OF_BOUND, "Scale {} is too large for DateTime64. "
+            "Maximum is up to nanoseconds (9).", std::to_string(scale));
+}
+
 std::string DataTypeDateTime64::doGetName() const
 {
     if (!has_explicit_time_zone)

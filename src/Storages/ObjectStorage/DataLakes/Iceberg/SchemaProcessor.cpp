@@ -238,7 +238,9 @@ DataTypePtr IcebergSchemaProcessor::getSimpleType(const String & type_name)
     if (type_name == f_time)
         return std::make_shared<DataTypeInt64>();
     if (type_name == f_timestamp)
-        return std::make_shared<DataTypeDateTime64>(6);
+        // Iceberg timestamp is always stored as UTC
+        // Use the special constructor that forces UTC but keeps it implicit (non-explicit)
+        return std::make_shared<DataTypeDateTime64>(6, "UTC", true);
     if (type_name == f_timestamptz)
         return std::make_shared<DataTypeDateTime64>(6, "UTC");
     if (type_name == f_string || type_name == f_binary)

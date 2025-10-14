@@ -25,6 +25,10 @@ public:
     // reuse timezone from other DateTime/DateTime64
     DataTypeDateTime64(UInt32 scale_, const TimezoneMixin & time_zone_info);
 
+    // Constructor that allows forcing a timezone without marking it as explicit
+    // Used for Iceberg where we need UTC but want to keep it implicit
+    DataTypeDateTime64(UInt32 scale_, std::string_view time_zone_name, bool force_non_explicit);
+
     const char * getFamilyName() const override { return family_name; }
     std::string doGetName() const override;
     TypeIndex getTypeId() const override { return type_id; }

@@ -19,6 +19,15 @@ public:
     {
     }
 
+    /// Constructor that allows forcing a timezone without marking it as explicit
+    /// Used for Iceberg where we need UTC but want to keep it implicit
+    TimezoneMixin(std::string_view time_zone_name, bool force_non_explicit)
+        : has_explicit_time_zone(!force_non_explicit && !time_zone_name.empty())
+        , time_zone(DateLUT::instance(time_zone_name))
+        , utc_time_zone(DateLUT::instance("UTC"))
+    {
+    }
+
     const DateLUTImpl & getTimeZone() const { return time_zone; }
     bool hasExplicitTimeZone() const { return has_explicit_time_zone; }
 
